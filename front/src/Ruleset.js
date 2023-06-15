@@ -32,7 +32,6 @@ function Ruleset() {
 
     const [preDetoectorResult, setPreDetoectorResult] = useState([]);
 
-    const [detector, setDetector] = useState(["Reentrancy"]);
     const [gpt, setGpt] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -71,7 +70,6 @@ function Ruleset() {
                     height: "80%",
                     width: "100%",
                     paddingX: "20px",
-                    paddingY: "40px",
                     boxSizing: "border-box",
                 }}
             >
@@ -80,7 +78,6 @@ function Ruleset() {
                         display: "flex",
                         flexDirection: "column",
                         gap: "12px",
-                        marginTop: "20px",
                     }}
                 >
                     {/* Slither 결과 */}

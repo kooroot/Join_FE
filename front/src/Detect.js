@@ -82,13 +82,15 @@ function Detect() {
     };
 
     const handleLogicChange = (e) => {
-        const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-        setLogic(selectedOptions);
+        console.log("handleLogicChange");
+        console.table(e.target);
+        setDetector(e.target.value);
     };
 
     const handleMiddleChange = (e) => {
-        const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-        setMiddleCategory(selectedOptions);
+        console.log("handleMiddleChange");
+        console.table(e.target.value);
+        setMiddleCategory(e.target.value);
     };
 
 
@@ -106,7 +108,7 @@ function Detect() {
                 <Box sx={{display: "flex", flexDirection: "column"}}>
 
                     {/* 메인 카테고리 */}
-                    <FormControl sx={{m: 1, width: "100%"}}>
+                    <FormControl fullWidth>
                         <InputLabel id="main_category_label" sx={{backgroundColor: colors.background, paddingX: 2}}>Main
                             Category</InputLabel>
                         <Select
@@ -123,13 +125,13 @@ function Detect() {
 
                     {/* Logic 카테고리 */}
                     {(category === 'logic') && (
-                        <FormControl sx={{m: 1, width: "100%"}}>
+                        <FormControl fullWidth>
                             <InputLabel id="logic_category_label"
                                         sx={{backgroundColor: colors.background, paddingX: 2}}>Logic
                                 Category</InputLabel>
                             <Select
                                 sx={{marginBottom: "20px"}}
-                                value={logic}
+                                value={detector}
                                 labelId="logic_category_label"
                                 id="logic_category"
                                 onChange={handleLogicChange}
@@ -142,7 +144,7 @@ function Detect() {
 
                     {/* Vuln 카테고리 */}
                     {(category === 'Vuln') && (
-                        <FormControl sx={{m: 1, width: "100%"}}>
+                        <FormControl fullWidth>
                             <InputLabel id="middle_category_label"
                                         sx={{backgroundColor: colors.background, paddingX: 2}}>Middle
                                 Category</InputLabel>
@@ -162,7 +164,7 @@ function Detect() {
 
                     {/* Vuln 하위 카테고리 */}
                     {(middleCategory === 'Category') && (
-                        <SelectDetectors detector={detector} setDetector={setDetector}/>
+                        <SelectCategories detector={detector} setDetector={setDetector}/>
                     )}
 
                     {(middleCategory === 'Specffic') && (
@@ -170,7 +172,7 @@ function Detect() {
                     )}
 
                     {(middleCategory === 'Default') && (
-                        <SelectDetectors detector={detector} setDetector={setDetector}/>
+                        <SelectDetectors detector={detector} setDetector={setDetector} middleCategory={middleCategory}/>
                     )}
                     <Button sx={{width: "200px", margin: "30px auto 0"}} variant="outlined"
                             onClick={handleGetSlitherResult}>Execute</Button>
@@ -184,7 +186,7 @@ function Detect() {
                         marginTop: "20px",
                     }}
                 >
-                    <ChartContainer/>
+                    <ChartContainer chart={""}/>
                     {/* Slither 결과 */}
                     <Box
                         sx={{
@@ -387,12 +389,12 @@ function CodeBox({code}) {
     </Box>;
 }
 
-function SelectDetectors({detector, setDetector}) {
+function SelectDetectors({detector, setDetector, middleCategory}) {
     const onChange = (event) => {
         setDetector(event.target.value);
     };
 
-    const detectors = [
+    let detectors = [
         "ConstantPragma",
         "IncorrectSolc",
         "LockedEther",
@@ -482,9 +484,15 @@ function SelectDetectors({detector, setDetector}) {
         "ReentrancyEth",
     ];
 
+    if (middleCategory === "Default") {
+        console.log("middleCategory: " + middleCategory);
+        detectors = ["all"];
+    }
+
     return (
         <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Detectors</InputLabel>
+            <InputLabel id="demo-simple-select-label"
+                        sx={{backgroundColor: colors.background, paddingX: 2}}>Detectors</InputLabel>
             <Select
                 multiple
                 value={detector}
@@ -501,9 +509,56 @@ function SelectDetectors({detector, setDetector}) {
     );
 }
 
-function ChartContainer() {
+function SelectCategories({detector, setDetector}) {
+    const onChange = (event) => {
+        setDetector(event.target.value);
+    };
+
+    const detectors = [
+        "Category 1",
+        "Category 2",
+        "Category 3",
+        "Category 4",
+        "Category 5",
+        "Category 6",
+        "Category 7",
+        "Category 8",
+        "Category 9",
+        "Category 10",
+        "Category 11",
+    ];
+
+    return (
+        <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label"
+                        sx={{backgroundColor: colors.background, paddingX: 2}}>Detectors</InputLabel>
+            <Select
+                multiple
+                value={detector}
+                label="Select Ragister"
+                onChange={onChange}
+            >
+                {detectors.map((item, index) => (
+                    <MenuItem key={index} value={item}>
+                        {item}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
+    );
+}
+
+function ChartContainer(data) {
     const chartContainerRef = useRef(null);
     const myChartRef = useRef(null);
+
+    const arrChart = data.chart || [
+        {value: 1048, name: 'Search Engine'},
+        {value: 735, name: 'Direct'},
+        {value: 580, name: 'Email'},
+        {value: 484, name: 'Union Ads'},
+        {value: 300, name: 'Video Ads'},
+    ]
 
     useEffect(() => {
         // 차트 컨테이너와 차트 인스턴스를 가져옴
@@ -529,13 +584,7 @@ function ChartContainer() {
                     name: 'Access From',
                     type: 'pie',
                     radius: '50%',
-                    data: [
-                        {value: 1048, name: 'Search Engine'},
-                        {value: 735, name: 'Direct'},
-                        {value: 580, name: 'Email'},
-                        {value: 484, name: 'Union Ads'},
-                        {value: 300, name: 'Video Ads'},
-                    ],
+                    data: arrChart,
                     emphasis: {
                         itemStyle: {
                             shadowBlur: 10,
