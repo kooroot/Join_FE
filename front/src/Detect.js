@@ -186,7 +186,11 @@ function Detect() {
                         marginTop: "20px",
                     }}
                 >
-                    <ChartContainer chart={""}/>
+
+                    {output && output.data && (
+                        <ChartContainer chart={""}/>
+                    )}
+
                     {/* Slither 결과 */}
                     <Box
                         sx={{
