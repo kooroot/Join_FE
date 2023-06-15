@@ -156,7 +156,7 @@ function Detect() {
                                 onChange={handleMiddleChange}
                             >
                                 <MenuItem value="Category">Category</MenuItem>
-                                <MenuItem value="Specffic">Specffic</MenuItem>
+                                <MenuItem value="Speciffic">Specffic</MenuItem>
                                 <MenuItem value="Default">Default</MenuItem>
                             </Select>
                         </FormControl>
