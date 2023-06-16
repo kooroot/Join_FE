@@ -122,7 +122,6 @@ function App() {
         <div className="App">
             {/* Dark Mode in MUI: MUI UI를 다크모드일 때 하얀색으로 변경돼서 다크모드로 변경함 */}
             <ThemeProvider theme={darkTheme}>
-                {/* flex : _ _ -> | | */}
                 <Box
                     sx={{
                         display: "flex",
@@ -154,7 +153,7 @@ function App() {
                                 join v0.1
                             </Typography>
                         </Box>
-                        {/*  */}
+
                         <Tabs defaultValue={1}>
                             <StyledTabsList
                                 sx={{
@@ -183,82 +182,4 @@ function App() {
         </div>
     );
 }
-
-function RegisterRuleDialogAndButton() {
-    const [open, setOpen] = useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-    return (
-        <>
-            <Button
-                sx={{
-                    justifyContent: "start",
-                    color: "white",
-                }}
-                onClick={handleClickOpen}
-            >
-                Register RUle
-            </Button>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                    style: {
-                        backgroundColor: "#111111",
-                        boxShadow: "none",
-                    },
-                }}
-            >
-                <DialogTitle
-                    sx={{
-                        color: "white",
-                    }}
-                >
-                    Register Rule
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText
-                        sx={{
-                            color: "white",
-                        }}
-                    >
-                        Rule의 경로를 추가해주세요
-                    </DialogContentText>
-                    <Box
-                        as="form"
-                        sx={{
-                            marginTop: "12px",
-                        }}
-                    >
-                        <TextField
-                            id="path"
-                            autoFocus
-                            type="text"
-                            inputProps={{
-                                style: {color: "white"},
-                            }}
-                            sx={{
-                                width: "500px",
-                                "& fieldset": {
-                                    borderColor: "white",
-                                },
-                            }}
-                        />
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Register</Button>
-                </DialogActions>
-            </Dialog>
-        </>
-    );
-}
-
 export default App;

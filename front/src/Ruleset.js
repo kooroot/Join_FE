@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useState} from "react";
+import {useState, useRef} from "react";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import {Box} from "@mui/system";
@@ -35,6 +35,8 @@ function Ruleset() {
     const [gpt, setGpt] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
+    const rulesetRef = useRef();
+
     const handleGetMitigationResult = async () => {
         const data = await axios.get("http://localhost:3001/mitigation");
         setMitigationResult(data);
@@ -45,21 +47,53 @@ function Ruleset() {
         setGpt(event.target.value);
     };
 
-    const handleGPT = async (event) => {
-        setIsLoading(true);
-        event.preventDefault();
+    /* 룰 입력 시 값 동기화 */
+    const handleInputChange = (e) => {
+        console.log(e.target.value);
+        setGpt(e.target.value);
+    }
 
-        const data = await axios.post(
-            "http://localhost:3001/gpt",
-            JSON.stringify({text: gpt}), // {name:value} -> "{name:value}"
-            {
-                headers: {
-                    "Content-Type": `application/json`,
-                },
-            }
-        );
-        setOutput({type: "gpt", data: data.data});
-        setGpt("");
+    /* ADD 를 클릭했을 때 동작 */
+    const handleRuleSet = async (e) => {
+        console.log("handleGPT");
+        console.log(e.target.textContent);
+        if (isLoading === true) {
+            return;
+        }
+        const value = gpt;
+        console.log(value);
+        setIsLoading(true);
+
+        if (e.target.textContent === "ADD") {
+            /* todo ADD 클릭했을 때 동작 */
+
+            /* axios 로 연결 */
+            // const data = await axios.post(
+            //     "http://localhost:3001/gpt",
+            //     JSON.stringify({text: gpt}), // {name:value} -> "{name:value}"
+            //     {
+            //         headers: {
+            //             "Content-Type": `application/json`,
+            //         },
+            //     }
+            // );
+        } else if (e.target.textContent === "REMOVE") {
+            /* todo REMOVE 클릭했을 때 동작 */
+
+            /* axios 로 연결 */
+            // const data = await axios.post(
+            //     "http://localhost:3001/gpt",
+            //     JSON.stringify({text: gpt}), // {name:value} -> "{name:value}"
+            //     {
+            //         headers: {
+            //             "Content-Type": `application/json`,
+            //         },
+            //     }
+            // );
+        }
+        /* 결과 적용 */
+        // setOutput({type: "gpt", data: data.data});
+        // setGpt("");
         setIsLoading(false);
     };
 
@@ -102,17 +136,17 @@ function Ruleset() {
                                 <TextField
                                     variant="outlined"
                                     type="text"
-                                    id="gpt"
-                                    name="gpt"
+                                    id="ruleset"
+                                    name="ruleset"
+                                    ref={rulesetRef}
                                     placeholder={"Input Rules"}
                                     value={gpt}
                                     sx={{flex: 1}}
-                                    onChange={handleFormGPT}
+                                    onChange={handleInputChange}
                                 />
-                                {/* todo "onClick={handleGPT}에 룰 추가 시 연결할 함수를 넣어주세요." */}
                                 <Button
                                     variant="outlined"
-                                    onClick={handleGPT}
+                                    onClick={handleRuleSet}
                                 >
                                     {
                                         isLoading
@@ -120,10 +154,10 @@ function Ruleset() {
                                             : (<p style={{color: "white",}}>ADD</p>)
                                     }
                                 </Button>
-                                {/* todo "onClick={handleGPT}에 룰 삭제 시 연결할 함수를 넣어주세요." */}
+
                                 <Button
                                     variant="outlined"
-                                    onClick={handleGPT}
+                                    onClick={handleRuleSet}
                                 >
                                     {
                                         isLoading
@@ -216,7 +250,7 @@ function Ruleset() {
                         </OutputBox>
                         {/* GPT */}
                     </Box>
-                    <Box as="form" onSubmit={handleGPT}>
+                    <Box as="form">
                         <Box
                             sx={{
                                 display: "flex",
@@ -243,7 +277,6 @@ function Ruleset() {
                                     translate: "0 -50%",
                                     color: "black",
                                 }}
-                                onClick={handleGPT}
                             >
                                 {
                                     isLoading

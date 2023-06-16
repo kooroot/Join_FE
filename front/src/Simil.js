@@ -34,22 +34,10 @@ function Simil() {
     const [preMitigationResult, setPreMitigationResult] = useState([]);
 
     const [detector, setDetector] = useState(["Reentrancy"]);
-    const [gpt, setGpt] = useState();
+    const [gpt, setGpt] = useState('');
+    const [similValue, setSimilValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleGetSimilResult = async () => {
-        const data = await axios.post("http://localhost:3001/detector", {
-            rule: detector,
-        });
-        setOutput({type: "detector", data: data.data});
-    };
-
-    const handleGetLearnResult = async () => {
-        const data = await axios.post("http://localhost:3001/detector", {
-            rule: detector,
-        });
-        setOutput({type: "detector", data: data.data});
-    };
 
     const handleGetMitigationResult = async () => {
         const data = await axios.get("http://localhost:3001/mitigation");
@@ -61,25 +49,37 @@ function Simil() {
         setGpt(event.target.value);
     };
 
-    const handleGPT = async (event) => {
-        setIsLoading(true);
-        event.preventDefault();
+    const handleSimilValue = (e) => {
+        console.log(e.target.value);
+        setSimilValue(e.target.value);
+    };
+    const [category, setCategory] = useState('');
 
-        const data = await axios.post(
-            "http://localhost:3001/gpt",
-            JSON.stringify({text: gpt}), // {name:value} -> "{name:value}"
-            {
-                headers: {
-                    "Content-Type": `application/json`,
-                },
-            }
-        );
-        setOutput({type: "gpt", data: data.data});
+    /* todo TEST 또는 TRAIN 의 SUBMIT 버튼 클릭 시 동작 */
+    const handleSimilSubmit = async (e) => {
+        setIsLoading(true);
+        e.preventDefault();
+
+        const type = category; // TEST / TRAIN의 값이 전달됩니다.
+        const arrText = similValue.split(',').map(item => item.trim()); // 배열의 형태로 값 전달
+        console.log("type: "+ type);
+        console.table(arrText);
+
+        // const data = await axios.post(
+        //     "http://localhost:3001/gpt",
+        //     JSON.stringify({type: type, text: arrText}), // {name:value} -> "{name:value}"
+        //     {
+        //         headers: {
+        //             "Content-Type": `application/json`,
+        //         },
+        //     }
+        // );
+        // setOutput({type: "gpt", data: data.data});
         setGpt("");
         setIsLoading(false);
     };
 
-    const [category, setCategory] = useState('');
+
     const handleCategoryChange = (e) => {
         setCategory(e.target.value);
     };
@@ -113,9 +113,8 @@ function Simil() {
                     </Select>
                 </FormControl>
 
-                {/* TEST */}
-                {(category === 'TEST') && (
-                    <Box as="form" onSubmit={handleGPT} sx={{marginY: "20px"}}>
+                {(category !== '') && (
+                    <Box as="form" sx={{marginY: "20px"}}>
                         <Box
                             sx={{
                                 display: "flex",
@@ -129,10 +128,10 @@ function Simil() {
                                 type="text"
                                 id="gpt"
                                 name="gpt"
-                                placeholder={"TEST1"}
-                                value={gpt}
+                                placeholder={category === "TEST" ? "TEST1" : "TRAIN1"}
+                                value={similValue}
                                 sx={{flex: 1}}
-                                onChange={handleFormGPT}
+                                onChange={handleSimilValue}
                             />
                             <Button
                                 type="submit"
@@ -140,7 +139,7 @@ function Simil() {
                                 sx={{
                                     color: "black",
                                 }}
-                                onClick={handleGPT}
+                                onClick={handleSimilSubmit}
                             >
                                 {
                                     isLoading
@@ -151,61 +150,6 @@ function Simil() {
                         </Box>
                     </Box>
                 )}
-
-                {/* TRAIN */}
-                {(category === 'TRAIN') && (
-                    <Box as="form" onSubmit={handleGPT} sx={{marginY: "20px"}}>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                gap: "18px",
-                                position: "relative",
-                                marginTop: "12px",
-                            }}
-                        >
-                            <TextField
-                                variant="outlined"
-                                type="text"
-                                id="gpt"
-                                name="gpt"
-                                placeholder={"TRAIN1"}
-                                value={gpt}
-                                sx={{flex: 1, width: "100%"}}
-                                onChange={handleFormGPT}
-                            />
-                            <Button
-                                type="submit"
-                                variant="outlined"
-                                sx={{
-                                    color: "black",
-                                }}
-                                onClick={handleGPT}
-                            >
-                                {
-                                    isLoading
-                                        ? (<p style={{color: "white",}}>Loading..</p>)
-                                        : (<p style={{color: "white",}}>Submit</p>)
-                                }
-                            </Button>
-                        </Box>
-                    </Box>
-                )}
-
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItem: "center",
-                        justifyContent: "center",
-                        gap: "50px",
-                    }}
-                >
-                    {/*<Button variant="outlined" sx={{paddingX: 5}} onClick={handleGetSimilResult}>*/}
-                    {/*    Simil*/}
-                    {/*</Button>*/}
-                    {/*<Button variant="outlined" sx={{paddingX: 5}} onClick={handleGetLearnResult}>*/}
-                    {/*    Learn*/}
-                    {/*</Button>*/}
-                </Box>
 
                 <Box
                     sx={{
@@ -306,7 +250,7 @@ function Simil() {
                         {/* GPT */}
                     </Box>
                 </Box>
-                <Box as="form" onSubmit={handleGPT} sx={{marginTop: "60px"}}>
+                <Box as="form" sx={{marginTop: "60px"}}>
                     <Box
                         sx={{
                             display: "flex",
@@ -334,7 +278,7 @@ function Simil() {
                                 translate: "0 -50%",
                                 color: "black",
                             }}
-                            onClick={handleGPT}
+                            // onClick={handleGPT}
                         >
                             {isLoading ? (
                                 <p

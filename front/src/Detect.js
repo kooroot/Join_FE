@@ -33,15 +33,21 @@ function Detect() {
     const [preDetoectorResult, setPreDetoectorResult] = useState([]);
     const [preMitigationResult, setPreMitigationResult] = useState([]);
 
-    const [detector, setDetector] = useState(["Reentrancy"]);
+    const [detector, setDetector] = useState([]);
     const [gpt, setGpt] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
     const handleGetSlitherResult = async () => {
-        const data = await axios.post("http://localhost:3001/detector", {
-            rule: detector,
-        });
-        setOutput({type: "detector", data: data.data});
+        console.log("handleGetSlitherResult");
+        console.log(detector);
+
+        /* todo EXECUTE 클릭 시 동작
+        *   * 값은 콘솔에 전부 찍어놨습니다.
+        * */
+        // const data = await axios.post("http://localhost:3001/detector", {
+        //     rule: detector,
+        // });
+        // setOutput({type: "detector", data: data.data});
     };
 
     const handleGetMitigationResult = async () => {
@@ -58,28 +64,30 @@ function Detect() {
         setIsLoading(true);
         event.preventDefault();
 
-        const data = await axios.post(
-            "http://localhost:3001/gpt",
-            JSON.stringify({text: gpt}), // {name:value} -> "{name:value}"
-            {
-                headers: {
-                    "Content-Type": `application/json`,
-                },
-            }
-        );
-        setOutput({type: "gpt", data: data.data});
+        /* submit 클릭했을 때 동작 */
+        // const data = await axios.post(
+        //     "http://localhost:3001/gpt",
+        //     JSON.stringify({text: gpt}), // {name:value} -> "{name:value}"
+        //     {
+        //         headers: {
+        //             "Content-Type": `application/json`,
+        //         },
+        //     }
+        // );
+        // setOutput({type: "gpt", data: data.data});
         setGpt("");
         setIsLoading(false);
     };
 
     /* 카테고리 수정에 사용 */
     const [category, setCategory] = useState('');
-    const [logic, setLogic] = useState([]);
     const [middleCategory, setMiddleCategory] = useState([]);
 
     const handleCategoryChange = (e) => {
         if (e.target.value === "ALL") {
             setDetector(e.target.value);
+        } else {
+            setDetector([]);
         }
         setCategory(e.target.value);
     };
@@ -93,6 +101,7 @@ function Detect() {
     const handleMiddleChange = (e) => {
         console.log("handleMiddleChange");
         console.table(e.target.value);
+        setDetector([]);
         setMiddleCategory(e.target.value);
     };
 
@@ -170,13 +179,10 @@ function Detect() {
                         <SelectCategories detector={detector} setDetector={setDetector}/>
                     )}
 
-                    {(middleCategory === 'Specffic') && (
+                    {(middleCategory === 'Speciffic') && (
                         <SelectDetectors detector={detector} setDetector={setDetector}/>
                     )}
 
-{/*                    {(middleCategory === 'Default') && (
-                        <SelectDetectors detector={detector} setDetector={setDetector} middleCategory={middleCategory}/>
-                    )}*/}
                     <Button sx={{width: "200px", margin: "30px auto 0"}} variant="outlined"
                             onClick={handleGetSlitherResult}>Execute</Button>
                 </Box>
@@ -303,7 +309,7 @@ function Detect() {
                     )}
                     {/*  */}
                 </Box>
-                <Box as="form" onSubmit={handleGPT} sx={{marginTop: "60px"}}>
+                <Box as="form" sx={{marginTop: "60px"}}>
                     <Box
                         sx={{
                             display: "flex",
@@ -521,6 +527,7 @@ function SelectCategories({detector, setDetector}) {
         setDetector(event.target.value);
     };
 
+    /* todo 카테고리 목록 변경 */
     const detectors = [
         "Category 1",
         "Category 2",
