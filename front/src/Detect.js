@@ -78,6 +78,9 @@ function Detect() {
     const [middleCategory, setMiddleCategory] = useState([]);
 
     const handleCategoryChange = (e) => {
+        if (e.target.value === "ALL") {
+            setDetector(e.target.value);
+        }
         setCategory(e.target.value);
     };
 
@@ -119,16 +122,17 @@ function Detect() {
                             onChange={handleCategoryChange}
                         >
                             <MenuItem key={1} value="Vuln">Vuln</MenuItem>
-                            <MenuItem key={2} value="logic">logic</MenuItem>
+                            <MenuItem key={2} value="Logic">Logic</MenuItem>
+                            <MenuItem key={3} value="ALL">ALL</MenuItem>
                         </Select>
                     </FormControl>
 
                     {/* Logic 카테고리 */}
-                    {(category === 'logic') && (
+                    {(category === 'Logic') && (
                         <FormControl fullWidth>
                             <InputLabel id="logic_category_label"
-                                        sx={{backgroundColor: colors.background, paddingX: 2}}>Logic
-                                Category</InputLabel>
+                                        sx={{backgroundColor: colors.background, paddingX: 2}}>
+                                Logic Category</InputLabel>
                             <Select
                                 sx={{marginBottom: "20px"}}
                                 value={detector}
@@ -157,7 +161,6 @@ function Detect() {
                             >
                                 <MenuItem value="Category">Category</MenuItem>
                                 <MenuItem value="Speciffic">Specffic</MenuItem>
-                                <MenuItem value="Default">Default</MenuItem>
                             </Select>
                         </FormControl>
                     )}
@@ -171,9 +174,9 @@ function Detect() {
                         <SelectDetectors detector={detector} setDetector={setDetector}/>
                     )}
 
-                    {(middleCategory === 'Default') && (
+{/*                    {(middleCategory === 'Default') && (
                         <SelectDetectors detector={detector} setDetector={setDetector} middleCategory={middleCategory}/>
-                    )}
+                    )}*/}
                     <Button sx={{width: "200px", margin: "30px auto 0"}} variant="outlined"
                             onClick={handleGetSlitherResult}>Execute</Button>
                 </Box>

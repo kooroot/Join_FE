@@ -79,6 +79,11 @@ function Simil() {
         setIsLoading(false);
     };
 
+    const [category, setCategory] = useState('');
+    const handleCategoryChange = (e) => {
+        setCategory(e.target.value);
+    };
+
     return (
         <>
             <Box
@@ -90,6 +95,116 @@ function Simil() {
                     boxSizing: "border-box",
                 }}
             >
+                {/* 메인 카테고리 */}
+                <FormControl fullWidth>
+                    <InputLabel
+                        id="main_category_label"
+                        sx={{backgroundColor: colors.background, paddingX: 2}}
+                    >Simil Category</InputLabel>
+                    <Select
+                        sx={{marginBottom: "20px"}}
+                        value={category}
+                        labelId="main_category_label"
+                        id="main_category"
+                        onChange={handleCategoryChange}
+                    >
+                        <MenuItem key={1} value="TEST">TEST</MenuItem>
+                        <MenuItem key={2} value="TRAIN">TRAIN</MenuItem>
+                    </Select>
+                </FormControl>
+
+                {/* TEST */}
+                {(category === 'TEST') && (
+                    <Box as="form" onSubmit={handleGPT} sx={{marginY: "20px"}}>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                gap: "18px",
+                                position: "relative",
+                                marginTop: "12px",
+                            }}
+                        >
+                            <TextField
+                                variant="outlined"
+                                type="text"
+                                id="gpt"
+                                name="gpt"
+                                placeholder={"TEST1"}
+                                value={gpt}
+                                sx={{flex: 1}}
+                                onChange={handleFormGPT}
+                            />
+                            <Button
+                                type="submit"
+                                variant="outlined"
+                                sx={{
+                                    color: "black",
+                                }}
+                                onClick={handleGPT}
+                            >
+                                {
+                                    isLoading
+                                        ? (<p style={{color: "white",}}>Loading..</p>)
+                                        : (<p style={{color: "white",}}>Submit</p>)
+                                }
+                            </Button>
+                        </Box>
+                    </Box>
+                )}
+
+                {/* TRAIN */}
+                {(category === 'TRAIN') && (
+                    <Box as="form" onSubmit={handleGPT} sx={{marginY: "20px"}}>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                gap: "18px",
+                                flexDirection: "column",
+                                position: "relative",
+                                alignItems: "center",
+                                marginTop: "12px",
+                            }}
+                        >
+                            <TextField
+                                variant="outlined"
+                                type="text"
+                                id="gpt"
+                                name="gpt"
+                                placeholder={"TRAIN1"}
+                                value={gpt}
+                                sx={{flex: 1, width: "100%"}}
+                                onChange={handleFormGPT}
+                            />
+                            <br />
+                            <TextField
+                                variant="outlined"
+                                type="text"
+                                id="gpt"
+                                name="gpt"
+                                placeholder={"TRAIN2"}
+                                value={gpt}
+                                sx={{flex: 1, width: "100%"}}
+                                onChange={handleFormGPT}
+                            />
+                            <Button
+                                type="submit"
+                                variant="outlined"
+                                sx={{
+                                    width: 200,
+                                    color: "black",
+                                }}
+                                onClick={handleGPT}
+                            >
+                                {
+                                    isLoading
+                                        ? (<p style={{color: "white",}}>Loading..</p>)
+                                        : (<p style={{color: "white",}}>Submit</p>)
+                                }
+                            </Button>
+                        </Box>
+                    </Box>
+                )}
+
                 <Box
                     sx={{
                         display: "flex",
@@ -98,12 +213,12 @@ function Simil() {
                         gap: "50px",
                     }}
                 >
-                    <Button variant="outlined" sx={{paddingX: 5}} onClick={handleGetSimilResult}>
-                        Simil
-                    </Button>
-                    <Button variant="outlined" sx={{paddingX: 5}} onClick={handleGetLearnResult}>
-                        Learn
-                    </Button>
+                    {/*<Button variant="outlined" sx={{paddingX: 5}} onClick={handleGetSimilResult}>*/}
+                    {/*    Simil*/}
+                    {/*</Button>*/}
+                    {/*<Button variant="outlined" sx={{paddingX: 5}} onClick={handleGetLearnResult}>*/}
+                    {/*    Learn*/}
+                    {/*</Button>*/}
                 </Box>
 
                 <Box

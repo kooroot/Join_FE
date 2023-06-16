@@ -67,6 +67,7 @@ function Ruleset() {
         <>
             <Box
                 sx={{
+                    position: "relative",
                     height: "80%",
                     width: "100%",
                     paddingX: "20px",
@@ -83,7 +84,6 @@ function Ruleset() {
                     {/* Slither 결과 */}
                     <Box
                         sx={{
-                            height: "50vh",
                             width: "100%",
                             marginBottom: "40px",
                         }}
@@ -116,8 +116,8 @@ function Ruleset() {
                                 >
                                     {
                                         isLoading
-                                        ? (<p style={{color: "white",}}>Loading..</p>)
-                                        : (<p style={{color: "white",}}>ADD</p>)
+                                            ? (<p style={{color: "white",}}>Loading..</p>)
+                                            : (<p style={{color: "white",}}>ADD</p>)
                                     }
                                 </Button>
                                 {/* todo "onClick={handleGPT}에 룰 삭제 시 연결할 함수를 넣어주세요." */}
@@ -127,8 +127,8 @@ function Ruleset() {
                                 >
                                     {
                                         isLoading
-                                        ? (<p style={{color: "white",}}>Loading..</p>)
-                                        : (<p style={{color: "white",}}>Remove</p>)
+                                            ? (<p style={{color: "white",}}>Loading..</p>)
+                                            : (<p style={{color: "white",}}>Remove</p>)
                                     }
                                 </Button>
 
@@ -216,45 +216,44 @@ function Ruleset() {
                         </OutputBox>
                         {/* GPT */}
                     </Box>
-                </Box>
-                {/*<Box as="form" onSubmit={handleGPT} sx={{marginTop: "60px"}}>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            gap: "18px",
-                            position: "relative",
-                            marginTop: "12px",
-                        }}
-                    >
-                        <TextField
-                            variant="outlined"
-                            type="text"
-                            id="gpt"
-                            name="gpt"
-                            value={gpt}
-                            sx={{flex: 1}}
-                            onChange={handleFormGPT}
-                        />
-                        <Button
-                            type="submit"
-                            variant="outlined"
+                    <Box as="form" onSubmit={handleGPT}>
+                        <Box
                             sx={{
-                                position: "absolute",
-                                right: "10px",
-                                top: "50%",
-                                translate: "0 -50%",
-                                color: "black",
+                                display: "flex",
+                                gap: "18px",
+                                position: "relative",
                             }}
-                            onClick={handleGPT}
                         >
-                            {
-                                isLoading
-                                ? ( <p style={{ color: "white", }}>Loading..</p> )
-                                : ( <p style={{color: "white",}}>Submit</p> )
-                            }
-                        </Button>
+                            <TextField
+                                variant="outlined"
+                                type="text"
+                                id="gpt"
+                                name="gpt"
+                                value={gpt}
+                                sx={{flex: 1}}
+                                onChange={handleFormGPT}
+                            />
+                            <Button
+                                type="submit"
+                                variant="outlined"
+                                sx={{
+                                    position: "absolute",
+                                    right: "10px",
+                                    top: "50%",
+                                    translate: "0 -50%",
+                                    color: "black",
+                                }}
+                                onClick={handleGPT}
+                            >
+                                {
+                                    isLoading
+                                        ? (<p style={{color: "white",}}>Loading..</p>)
+                                        : (<p style={{color: "white",}}>Submit</p>)
+                                }
+                            </Button>
+                        </Box>
                     </Box>
-                </Box>*/}
+                </Box>
             </Box>
         </>
     );
@@ -280,6 +279,7 @@ function OutputBox({children}) {
             sx={{
                 marginTop: "8px",
                 height: "100%",
+                minHeight: "50vh",
                 width: "100%",
                 backgroundColor: colors.sidebar,
                 border: `1px solid ${colors.primary}`,

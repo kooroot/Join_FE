@@ -129,19 +129,6 @@ function App() {
                         minHeight: "100vh",
                     }}
                 >
-                    {/* Box === div , aside도 HTML에서 머하는 역할은지 명시하기 위한 것*/}
-                    {/* SIDEBAR */}
-                    <Box
-                        as="aside"
-                        sx={{
-                            width: "250px",
-                            backgroundColor: colors.sidebar,
-                        }}
-                    >
-                        <Stack>
-                            <RegisterRuleDialogAndButton/>
-                        </Stack>
-                    </Box>
                     <Box
                         as="main"
                         sx={{
