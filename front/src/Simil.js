@@ -159,9 +159,7 @@ function Simil() {
                             sx={{
                                 display: "flex",
                                 gap: "18px",
-                                flexDirection: "column",
                                 position: "relative",
-                                alignItems: "center",
                                 marginTop: "12px",
                             }}
                         >
@@ -175,22 +173,10 @@ function Simil() {
                                 sx={{flex: 1, width: "100%"}}
                                 onChange={handleFormGPT}
                             />
-                            <br />
-                            <TextField
-                                variant="outlined"
-                                type="text"
-                                id="gpt"
-                                name="gpt"
-                                placeholder={"TRAIN2"}
-                                value={gpt}
-                                sx={{flex: 1, width: "100%"}}
-                                onChange={handleFormGPT}
-                            />
                             <Button
                                 type="submit"
                                 variant="outlined"
                                 sx={{
-                                    width: 200,
                                     color: "black",
                                 }}
                                 onClick={handleGPT}
