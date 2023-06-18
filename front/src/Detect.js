@@ -169,7 +169,7 @@ function Detect() {
                                 onChange={handleMiddleChange}
                             >
                                 <MenuItem value="Category">Category</MenuItem>
-                                <MenuItem value="Speciffic">Specffic</MenuItem>
+                                <MenuItem value="Specific">Specific</MenuItem>
                             </Select>
                         </FormControl>
                     )}
@@ -179,7 +179,7 @@ function Detect() {
                         <SelectCategories detector={detector} setDetector={setDetector}/>
                     )}
 
-                    {(middleCategory === 'Speciffic') && (
+                    {(middleCategory === 'Specific') && (
                         <SelectDetectors detector={detector} setDetector={setDetector}/>
                     )}
 
